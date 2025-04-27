@@ -1,0 +1,68 @@
+\documentclass{article}
+
+\usepackage{titlesec}
+\titleformat{\section}{\Large\bfseries}{\thesection.}{1em}{}[\vspace{-0.8em}\rule{0.7\textwidth}{1pt}]
+\titleformat{\subsection}{\large\bfseries}{\centering\thesubsection}{1em}{}[]
+\usepackage{hyperref} 
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\newcommand{\Mod}[1]{\ (\mathrm{mod}\ #1)}
+\newcommand{\sign}[1]{\text{sign}\left(#1\right)}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\p}{\mathbb{P}}
+\newcommand{\dd}{\text{d}}
+\newcommand{\normal}{\mathcal{N}}
+\newcommand{\var}{\text{Var}}
+\newcommand{\AND}{\text{ and }}
+\newcommand{\tr}[1]{\text{Tr}(#1)}
+\newcommand{\INT}[1]{\text{int}(#1)}
+\newcommand{\EXT}[1]{\text{ext}(#1)}
+\newcommand{\BD}[1]{\partial(#1)}
+\newcommand{\innerprod}[2]{\langle #1,#2 \rangle}
+\newcommand{\magnitude}[1]{\lvert\lvert#1\rvert\rvert}
+\newcommand{\proj}[2]{\text{proj}_#1(#2)}
+\DeclareMathOperator{\Hom}{Hom}% preferred
+\newcommand{\cMatrix}[2]{\begin{pmatrix}\vdots&\vdots&\vdots&\dots&\vdots\\#1_1&#1_2&#1_3&\dots&#1_#2\\\vdots&\vdots&\vdots&\dots&\vdots\\\end{pmatrix}}
+\newcommand{\cVector}[2]{\begin{pmatrix}#1_1\\#1_2\\\vdots\\#1_#2\\\end{pmatrix}}
+\newcommand{\rMatrix}[2]{\begin{pmatrix}\dots&#1_1&\dots\\\dots&#1_2&\dots\\\dots&#1_3&\dots\\\vdots&\vdots&\vdots\\\dots&#1_#2&\dots\\\end{pmatrix}}
+\newcommand{\NCR}[2]{\begin{pmatrix}#1\\#2\end{pmatrix}}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{float}
+\usepackage{esint}
+\usepackage{amsthm}
+\usepackage{geometry}
+\geometry{a4paper,margin=1in}
+\usepackage{enumitem}
+\usepackage[most]{tcolorbox}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\title{Gaussian Mixture Model and Applications with Expectation-Maximization}
+\author{KK Thuwajit (kkuroma) and Khalid ``Standard Deviation Male''}
+\begin{document}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\maketitle
+\tableofcontents
+\newpage
+
+
+\fancyfoot[CO,CE]{Fancy footnote hehe}
+
+\include{chapters/00}
+\include{chapters/01}
+\include{chapters/02}
+\include{chapters/03}
+\include{chapters/04}
+
+\end{document}

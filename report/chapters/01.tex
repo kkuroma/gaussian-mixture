@@ -1,0 +1,23 @@
+\section{Gaussian Mixture Model}
+\subsection{Defining Gaussian Mixture}
+\begin{definition}[Gaussian Mixture Problem]
+    For $j=1,2,\dots,k$ suppose there exists some fixed, hidden parameters $\phi_j \in \R,\boldsymbol{\mu}_j \in \R^d,\Sigma_j \in \R^{d\times d}$ such that $\sum_{j=1}^k \phi_j = 1$ and $\Sigma_j$ is a valid covariance matrix, we consider the following procedure
+    \begin{itemize}
+        \item For $i=1,2,\dots,n$ sample IID $y_i$ from $\{1,2,\dots,k\}$ such that $\p(y_i)=\phi_j$
+        \item For $i=1,2,\dots,n$ sample IID $\textbf{x}_i$ from $\normal(\boldsymbol{\mu}_{y_i},\Sigma_{y_i})$
+    \end{itemize}
+    There are two versions of the problems:
+    \begin{itemize}
+        \item \textbf{Supervised}: for $i=1,2,\dots,n$ we are given $\textbf{x}_i,y_i$. Find the estimate for $\phi_j,\boldsymbol{\mu}_j,\Sigma_j$
+        \item \textbf{Unsupervised}: for $i=1,2,\dots,n$ we are given only $\textbf{x}_i$. Find the estimate for $\phi_j,\boldsymbol{\mu}_j,\Sigma_j$
+    \end{itemize}
+\end{definition}
+This is assuming that there exists $k$ different Gaussian clusters, and $\mathbf{x}_i$ is sampled from one of them with probability specified by $\phi_j$. Notice that the supervised version of the problem essentially boils down to running the regular Multivariate Gaussian problem for each class $y_i$ can take. We are more interested in the unsupervised problem, as the MLE could not be solved in a closed form.
+\subsection{Potential Applications of Gaussian Mixture}
+We present two applications of the unsupervised version of the Gaussian Mixture defined above. The exact implementations will be explained in later sessions.
+\begin{itemize}
+    \item \textbf{Unsupervised classification}: the resulting estimate for the Gaussian clusters' mean and covariance allows estimates for the unknown label $y_i$ to be retrieved from $\textbf{x}_i$.
+    \item \textbf{Conditional generation}: the Gaussian Mixture model allows data outside of the given set to be sampled from the resulting Gaussian distributions, conditioned on one of the possible classes.
+\end{itemize}
+\subsection{Gaussian Mixture as MLE Problem}
+The likelihood of the 

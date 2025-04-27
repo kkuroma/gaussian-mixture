@@ -1,0 +1,95 @@
+\section*{Preface}
+We aim to establish the mathematical derivations that will be use throughout the document here.
+\begin{theorem}[MLE of Categorical Sampling]
+    Given $y_1,y_2,\dots,y_n$ are sampled IID from $\{1,2,\dots,k\}$ such that $\p(y_i=j)=\phi_j$, $\sum_{j=1}^k=\phi_j$, the MLE for $\phi_i$ is given by
+    \[
+        \hat{\phi}_j = \frac{1}{n} \sum_{i=1}^n \mathbb{I}\{y_i=j\}
+    \]
+\end{theorem}
+\begin{proof}
+    The likelihood of the parameters $\phi_1,\phi_2,\dots,\phi_k$ given observations $y_1,y_2,\dots,y_n$ can be expressed as
+    \[
+    f(\phi_1,\phi_2,\dots,\phi_k) = \prod_{i=1}^n \phi_{y_i} = \prod_{j=1}^k \phi_{j} ^ {\frac{1}{n} \sum_{i=1}^n \mathbb{I}\{y_i=j\}}
+    \]
+    and consequently the log-likelihood
+    \[
+    g(\phi_1,\phi_2,\dots,\phi_k) = \frac{1}{n} \sum_{j=1}^k \log(\phi_{j}) \left(\sum_{i=1}^n \mathbb{I}\{y_i=j\}\right)
+    \]
+    we are able to solve for the MLE using Lagrangian multipliers. Consider the objective function 
+    \[
+    \mathcal{L}(\phi_1,\phi_2,\dots,\phi_k,\lambda) = \sum_{j=1}^k \log(\phi_{j}) \left(\sum_{i=1}^n \mathbb{I}\{y_i=j\}\right) + \lambda\left(1-\sum_{j=1}^k\phi_j\right)
+    \]
+    Taking the partial derivative for the gradient
+    \[
+    \frac{\partial}{\partial \phi_l} \mathcal{L}(\phi_1,\phi_2,\dots,\phi_k,\lambda) = \frac{\sum_{i=1}^n \mathbb{I}\{y_i=l\}}{\phi_l} - \lambda
+    \]
+    and the second partial derivative for the hessian
+    \[
+        \frac{\partial^2}{\partial \phi_l^2} \mathcal{L}(\phi_1,\phi_2,\dots,\phi_k,\lambda) = -\frac{\sum_{i=1}^n \mathbb{I}\{y_i=l\}}{\phi_l^2}
+        \text{ and }
+        \frac{\partial}{\partial \phi_l}\frac{\partial}{\partial \phi_m}\mathcal{L}(\phi_1,\phi_2,\dots,\phi_k,\lambda) = 0
+    \]
+    We can see that the hessian is negative semi-definite, meaning setting the gradient as $\mathbf{0}$ or equivalently $\phi_l=\frac{\sum_{i=1}^n \mathbb{I}\{y_i=l\}}{\lambda}$ yields the maximum. Since
+    \[
+        1 = \sum_{j=1}^k\phi_j = \sum_{j=1}^k \frac{\sum_{i=1}^n \mathbb{I}\{y_i=j\}}{\lambda} = \frac{n}{\lambda}
+    \]
+    therefore, $\lambda=n$. Put together, the empirical prediction $\hat{\phi_j} = \frac{\sum_{i=1}^n \mathbb{I}\{y_i=j\}}{n}$ is the MLE, completing the proof
+\end{proof}
+
+\begin{theorem}[MLE of Multivariate Gaussian]
+    Given $\mathbf{x}_1,\mathbf{x}_2,\dots,\mathbf{x}_n\in\R^d$ are sampled IID from $\normal(\boldsymbol{\mu},\Sigma)$, the MLE for $\boldsymbol{\mu}$ and $\Sigma$ are given by
+    \[ 
+        \boldsymbol{\mu} = \frac{1}{n} \sum_{i=1}^n \mathbf{x}_i \text{ and } \Sigma = \frac{1}{n} \sum_{i=1}^n \mathbf{x}_i \mathbf{x}_i^\top
+    \]
+\end{theorem}
+\begin{proof}
+    The likelihood of the parameters $\boldsymbol{\mu}$ and $\Sigma$ given observations $\mathbf{x}_1,\mathbf{x}_2,\dots,\mathbf{x}_n$ can be expressed as
+    \[
+    f(\boldsymbol{\mu},\Sigma) = \prod_{i=1}^n \frac{1}{(2\pi)^{d/2}|\Sigma|^{1/2}} \exp\left( -\frac{1}{2} (\mathbf{x}_i - \boldsymbol{\mu})^\top \Sigma^{-1} (\mathbf{x}_i - \boldsymbol{\mu}) \right)
+    \]
+    and consequently the log-likelihood
+    \[
+    g(\boldsymbol{\mu},\Sigma) = -\frac{n}{2} \log |\Sigma| - \frac{nd}{2} \log(2\pi) - \frac{1}{2} \sum_{i=1}^n (\mathbf{x}_i - \boldsymbol{\mu})^\top \Sigma^{-1} (\mathbf{x}_i - \boldsymbol{\mu})
+    \]
+    To find the MLE, we maximize $g(\boldsymbol{\mu},\Sigma)$ with respect to $\boldsymbol{\mu}$ and $\Sigma$. First, optimizing with respect to $\boldsymbol{\mu}$, we take the gradient and hessian
+    \[
+    \frac{\partial}{\partial \boldsymbol{\mu}} g(\boldsymbol{\mu},\Sigma) = \Sigma^{-1} \sum_{i=1}^n (\mathbf{x}_i - \boldsymbol{\mu})
+    \text{ and }
+    \frac{\partial^2}{\partial \boldsymbol{\mu}^2} g(\boldsymbol{\mu},\Sigma) = -\Sigma^{-1}
+    \]
+    Since $\Sigma$ has to be positive semi-definite to be a covariance, so does $\Sigma^{-1}$, which implies the gradient to zero or
+    \[
+    \Sigma^{-1} \sum_{i=1}^n (\mathbf{x}_i - \boldsymbol{\mu}) = 0
+    \implies
+    \sum_{i=1}^n (\mathbf{x}_i - \boldsymbol{\mu}) = 0
+    \implies
+    n\boldsymbol{\mu} = \sum_{i=1}^n \mathbf{x}_i
+    \implies
+    \boldsymbol{\mu} = \frac{1}{n} \sum_{i=1}^n \mathbf{x}_i
+    \]
+    yields the maximum. Next, optimizing with respect to $\Sigma$, plugging $\hat{\boldsymbol{\mu}}$ back in, the log-likelihood simplifies to
+    \[
+    g(\boldsymbol{\mu},\Sigma) = -\frac{n}{2} \log |\Sigma| - \frac{1}{2} \sum_{i=1}^n (\mathbf{x}_i - \hat{\boldsymbol{\mu}})^\top \Sigma^{-1} (\mathbf{x}_i - \hat{\boldsymbol{\mu}})
+    \]
+    Here, we use the trace trick:
+    \[
+    -\frac{n}{2} \log |\Sigma| - \frac{1}{2} \sum_{i=1}^n \text{Tr}\left((\mathbf{x}_i - \hat{\boldsymbol{\mu}})^\top \Sigma^{-1} (\mathbf{x}_i - \hat{\boldsymbol{\mu}})\right)
+    \]
+    Taking the derivative with respect to $\Sigma^{-1}$ using the these identities
+    \[
+    \frac{\partial}{\partial \Sigma^{-1}} \log |\Sigma| = \Sigma
+    \quad \text{and} \quad
+    \frac{\partial}{\partial \Sigma^{-1}} \operatorname{tr}(A\Sigma^{-1}) = -A
+    \]
+    we obtain
+    \[
+    \frac{\partial}{\partial \Sigma^{-1}} g(\boldsymbol{\mu},\Sigma) = \frac{n}{2}\Sigma - \frac{1}{2}\sum_{i=1}^n (\mathbf{x}_i - \hat{\boldsymbol{\mu}})(\mathbf{x}_i - \hat{\boldsymbol{\mu}})^\top
+    \]
+    Setting the gradient to zero, we get
+    \[
+    n\Sigma = \sum_{i=1}^n (\mathbf{x}_i - \hat{\boldsymbol{\mu}})(\mathbf{x}_i - \hat{\boldsymbol{\mu}})^\top
+    \implies
+    \Sigma = \frac{1}{n} \sum_{i=1}^n (\mathbf{x}_i - \hat{\boldsymbol{\mu}})(\mathbf{x}_i - \hat{\boldsymbol{\mu}})^\top
+    \]
+    Put together, the empirical predictions are indeed the MLE, thus completing the proof.
+\end{proof}

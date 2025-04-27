@@ -1,0 +1,16 @@
+\contentsline {section}{\numberline {1}Gaussian Mixture Model}{4}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Defining Gaussian Mixture}{4}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Potential Applications of Gaussian Mixture}{4}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Gaussian Mixture as MLE Problem}{4}{subsection.1.3}%
+\contentsline {section}{\numberline {2}Expectation-Maximization (EM) Algorithm}{5}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Defining EM Algorithms}{5}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}EM Algorithm for Gaussian Mixture Models}{5}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}EM Algorithm for Variational Inference}{5}{subsection.2.3}%
+\contentsline {section}{\numberline {3}Unsupervised Classification}{6}{section.3}%
+\contentsline {subsection}{\numberline {3.1}K-means Clustering}{6}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Gaussian Mixture Classification}{6}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Comparison}{6}{subsection.3.3}%
+\contentsline {section}{\numberline {4}Conditional Generation}{7}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Pure Gaussian Mixture Models}{7}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Gaussian Mixture Variational Autoencoders}{7}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Comparison}{7}{subsection.4.3}%
