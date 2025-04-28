@@ -6,12 +6,12 @@
 \contentsline {subsection}{\numberline {2.1}The Evidence Lower Bound (ELBO)}{5}{subsection.2.1}%
 \contentsline {subsection}{\numberline {2.2}Defining EM Algorithms}{6}{subsection.2.2}%
 \contentsline {subsection}{\numberline {2.3}EM Algorithm for Gaussian Mixture Models}{6}{subsection.2.3}%
-\contentsline {subsection}{\numberline {2.4}EM Algorithm for Variational Inference}{6}{subsection.2.4}%
-\contentsline {section}{\numberline {3}Unsupervised Classification}{7}{section.3}%
-\contentsline {subsection}{\numberline {3.1}K-means Clustering}{7}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}Gaussian Mixture Classification}{7}{subsection.3.2}%
-\contentsline {subsection}{\numberline {3.3}Comparison}{7}{subsection.3.3}%
-\contentsline {section}{\numberline {4}Conditional Generation}{8}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Pure Gaussian Mixture Models}{8}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Gaussian Mixture Variational Autoencoders}{8}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}Comparison}{8}{subsection.4.3}%
+\contentsline {subsection}{\numberline {2.4}EM Algorithm for Variational Inference}{7}{subsection.2.4}%
+\contentsline {section}{\numberline {3}Unsupervised Classification}{8}{section.3}%
+\contentsline {subsection}{\numberline {3.1}K-means Clustering}{8}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Gaussian Mixture Classification}{8}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Comparison}{8}{subsection.3.3}%
+\contentsline {section}{\numberline {4}Conditional Generation}{9}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Pure Gaussian Mixture Models}{9}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Gaussian Mixture Variational Autoencoders}{9}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Comparison}{9}{subsection.4.3}%

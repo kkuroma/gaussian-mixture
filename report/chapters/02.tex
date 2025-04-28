@@ -28,27 +28,86 @@ Like the expression for Gaussian Mixture Models, we may model the likelihood of 
 \end{align*}
 We're able to go from $(*)$ to $(**)$ using Jensen's inequality, as $\log$ is a convex function. This allows us to minimize the lower bound of $g(\theta,q)$ which indirectly optimizes the log-likelihood itself. This lower bound term is therefore dubbed the \textbf{evidence lower bound} (ELBO):
 \[
-\text{ELBO}(\mathbf{x},\theta,q) = \int q(\mathbf{z}) \log(p(\mathbf{x}|\mathbf{z};\theta)) d\mathbf{z}
+\text{ELBO}(\mathbf{x};\theta,q) = \int q(\mathbf{z}) \log(p(\mathbf{x}|\mathbf{z};\theta)) d\mathbf{z}
 \]
-\textbf{Finding the optimal prior:} For the tightest bound with Jensen inequality to hold, the expectation must be taken over a constant, meaning $p(\mathbf{x}_i|\mathbf{z};\theta)=c$ over some constant $c$. By Bayes' law,
+\textbf{Finding the optimal prior:} For the tightest bound with Jensen inequality to hold, the expectation must be taken over a constant, meaning $p(\mathbf{x}|\mathbf{z};\theta)=c$ over some constant $c$. By Bayes' law,
 \begin{align*}
-    p(\mathbf{x}_i|\mathbf{z};\theta)&=c\\
-    \frac{p(\mathbf{x}_i,\mathbf{z};\theta)}{q(\mathbf{z})}&=c\\
-    q(\mathbf{z}) \propto p(\mathbf{x}_i,\mathbf{z};\theta)
+    p(\mathbf{x}|\mathbf{z};\theta)&=c\\
+    \frac{p(\mathbf{x},\mathbf{z};\theta)}{q(\mathbf{z})}&=c\\
+    q(\mathbf{z}) \propto p(\mathbf{x},\mathbf{z};\theta)
 \end{align*}
 And since $\int_{\mathbf{z}} q(\mathbf{z}) d\mathbf{z}=1$,
 \begin{align*}
     q(\mathbf{z}) \
     &= \frac{q(\mathbf{z})}{\int_{\mathbf{z}} q(\mathbf{z}) d\mathbf{z}} \\
-    &= \frac{p(\mathbf{x}_i,\mathbf{z};\theta)}{\int_{\mathbf{z}} p(\mathbf{x}_i,\mathbf{z};\theta)} \\
-    &= \frac{p(\mathbf{x}_i,\mathbf{z};\theta)}{p(\mathbf{x}_i,\theta)} \\
-    &= p(\mathbf{z}|\mathbf{x}_i;\theta)
+    &= \frac{p(\mathbf{x},\mathbf{z};\theta)}{\int_{\mathbf{z}} p(\mathbf{x},\mathbf{z};\theta)} \\
+    &= \frac{p(\mathbf{x},\mathbf{z};\theta)}{p(\mathbf{x},\theta)} \\
+    &= p(\mathbf{z}|\mathbf{x};\theta)
 \end{align*}
-With this, we may re-write the lower bound of our log-likelihood as follows:
-\[
-    g(\theta,q) \ge \sum_{i=1}^n \text{ELBO}(\mathbf{x}_i,\theta,q)
-\]
-Moreover, we may isolate $\theta$ from the expression by summing up all 
+Therefore, $p(\mathbf{z}|\mathbf{x};\theta)$ is the optimal choice for $q(\mathbf{z})$. Notice that this choice is dependent on $\mathbf{x}$. As such, for each $\mathbf{x}_i$, a choice $q_i$ is made as $p(\mathbf{z}|\mathbf{x}_i;\theta)$.
+\begin{definition}[EM Learning Objective]
+    We may isolate $\theta$ from the expression using the optimal $q_i$ as follows:
+    \[
+        \ell(\theta) = \sum_{i=1}^n g(\theta,q_i) \ge \sum_{i=1}^n \text{ELBO}(\mathbf{x}_i;\theta,q_i) = \sum_{i=1}^n \int q_i(\mathbf{z}) \log(p(\mathbf{x}|\mathbf{z};\theta)) d\mathbf{z} \quad\text{when}\quad q_i(\mathbf{z})=p(\mathbf{z}|\mathbf{x}_i;\theta)
+    \]
+\end{definition}
 \subsection{Defining EM Algorithms}
+The EM algorithm aims to minimize the learning objective defined above, which, if we recall, is the lower bound of the log-likelihood of a parameter $\theta$, given $q_i$ are chosen optimally.
+\begin{definition}[EM Algorithm]
+    The algorithm takes the scenario defined in the ``Distribution Learning with Hidden Latent Variables'' problem and carries the following steps
+    \begin{itemize}
+        \item \textbf{Expectation (E) Step:} compute $q_i^{(t)}(\mathbf{z})=p(\mathbf{z}|\mathbf{x}_i;\theta^{(t)})$ for $i=1,2,\dots,n$
+        \item \textbf{Maximization (M) Step:} compute
+        \[
+            \theta^{(t+1)} = \arg\max_{\theta} \sum_{i=1}^n \text{ELBO}(\mathbf{x}_i;\theta,q_i^{(t)}) = \arg\max_{\theta} \sum_{i=1}^n \int q_i^{(t)}(\mathbf{z}) \log(p(\mathbf{x}|\mathbf{z};\theta)) d\mathbf{z}
+        \]
+    \end{itemize}
+    With an arbitrary initial value for $\theta^{(0)}$, the algorithm repeats the E and M steps until convergence.
+\end{definition}
+A primary concern with such an algorithm is the convergence, which will promptly be proven
+\begin{theorem}[EM Algorithm Convergence]
+    The EM Algorithm defined above updates $\ell(\theta^{(t)})$ monotonically, that is, $\ell(\theta^{(t)})\ge \ell(\theta^{(t+1)})$.
+\end{theorem}
+\begin{proof}
+    First, recall the the ELBO is defined such that $\ell(\theta) \ge \sum_{i=1}^n \text{ELBO}(\mathbf{x}_i;\theta,q_i)$ for any prior $q_i$. Furthermore, the choice for $q_i^{(t)}$ was made to ensure that Jensen's inequality holds with equality, meaning $\ell(\theta^{(t)})=\sum_{i=1}^n \text{ELBO}(\mathbf{x}_i;\theta^{(t)},q_i^{(t)})$. Therefore,
+    \begin{align*}
+        \ell(\theta^{(t+1)})
+        &\ge \sum_{i=1}^n \text{ELBO}(\mathbf{x}_i;\theta^{(t+1)},q_i^{(t)}) &\quad\text{ELBO's definition} \\
+        &\ge \sum_{i=1}^n \text{ELBO}(\mathbf{x}_i;\theta^{(t)},q_i^{(t)}) &\quad\theta^{(t+1)}\text{'s definition} \\
+        &= \ell(\theta^{(t)}) &\quad\text{Jensen's Inequality Equality Case}
+    \end{align*}
+    As desired.
+\end{proof}
 \subsection{EM Algorithm for Gaussian Mixture Models}
+We revisit the problem of Gaussian Mixture Models, now armed with the knowledge of the EM algorithm. We first note that the Gaussian Mixture Model problem is a specific case of the ``Distribution Learning with Hidden Latent Variables'' problem defined earlier. In particular, $\theta={\{\boldsymbol{\mu}_j,\Sigma_j\}}_{j=1}^k$, $p$ is the Gaussian Mixture pdf, and $q$ is the proportion of each possible class of $z$ showing up. The EM Algorithm becomes
+\begin{itemize}
+    \item \textbf{Expectation (E) Step:} $q_i^{(t)}(z)=p(z|\mathbf{x}_i;\theta^{(t)})$ for $i=1,2,\dots,n$
+    \item \textbf{Maximization (M) Step:} We first use Bayes's rule to re-write the terms
+    \begin{align*}
+        \theta^{(t+1)} 
+        &= \arg\max_{\theta} \sum_{i=1}^n \sum_{z=1}^k q_i^{(t)}(z) \log(p(\mathbf{x}|z;\boldsymbol{\mu}_z,\Sigma_z,\phi_z)) \\
+        &= \arg\max_{\theta} \sum_{i=1}^n \sum_{z=1}^k q_i^{(t)}(z) \log\left(\frac{p(\mathbf{x},z;\boldsymbol{\mu}_z,\Sigma_z,\phi_z)}{q_i^{(t)}(z)}\right) \\
+        &= \arg\max_{\theta} \sum_{i=1}^n \sum_{z=1}^k q_i^{(t)}(z) \log\left(\frac{p(\mathbf{x}|z;\boldsymbol{\mu}_z,\Sigma_z)p(z,\phi_z)}{q_i^{(t)}(z)}\right) \\
+        &= \arg\max_{\theta} \sum_{i=1}^n \sum_{z=1}^k q_i^{(t)}(z) \log\left(\frac{p(\mathbf{x}|z;\boldsymbol{\mu}_z,\Sigma_z)\phi_z}{q_i^{(t)}(z)}\right)
+    \end{align*}
+    therefore, taking the log and removing constant terms
+    \[
+        \theta^{(t+1)} = \arg\max_{\theta} \sum_{i=1}^n \sum_{z=1}^k q_i^{(t)}(z) 
+        \left(
+            -\frac{n}{2} \log |\Sigma_z|
+            - \frac{1}{2} \sum_{i=1}^n (\mathbf{x}_i - \boldsymbol{\mu}_z)^\top \Sigma_z^{-1} (\mathbf{x}_i - \boldsymbol{\mu}_z)
+            + \log(\phi_z)
+        \right)
+    \]
+\end{itemize}
+Notice that the optimization terms for $\boldsymbol{\mu}_z$ and $\Sigma_z$ is a linear combination of several log-likelihood terms of regular Gaussian fitting. Indeed, we are able to use the results from the preface to conclude that for $z=1,2,\dots,k$
+\[
+\boldsymbol{\mu}_z = \frac{\sum_{i=1}^n q_i^{(t)}(z) \mathbf{x}_i}{\sum_{i=1}^n q_i^{(t)}(z)}
+\text{ and }
+\Sigma_z = \frac{\sum_{i=1}^n q_i^{(t)}(z) (\mathbf{x}_i-\boldsymbol{\mu}_z)(\mathbf{x}_i-\boldsymbol{\mu}_z)^\top}{\sum_{i=1}^n q_i^{(t)}(z)}
+\]
+Furthermore, the optimization terms $\phi_z$ are a linear combination of several log-likelihood terms of the categorical sampling. Similarly, we can use the results the preface to conclude that for $z=1,2,\dots,k$
+\[
+\phi_k = \frac{1}{n} \sum_{i=1}^n q_i^{(t)}(z)
+\]
 \subsection{EM Algorithm for Variational Inference}
