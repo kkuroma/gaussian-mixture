@@ -110,8 +110,8 @@ Furthermore, the optimization terms $\phi_z$ are a linear combination of several
 \[
 \phi_k = \frac{1}{n} \sum_{i=1}^n q_i^{(t)}(z)
 \]
-\subsection{Generalizing the EM Algorithm}
-The Variational Autoencoder (VAE) is a popular extension of the EM Algorithm. Particularly, the \textbf{E-step} of most EM algorithm involves computing $q_i^{(t)}(\mathbf{z})=p(\mathbf{z}|\mathbf{x}_i;\theta^{(t)})$ for $i=1,2,\dots,n$, which is often an \textbf{intractable problem} for most distributions. The VAE replaces the posterior $p(\mathbf{z}|\mathbf{x}_i;\theta^{(t)})$ by a learnable distribution $q$ parametrized by $\phi$. Commonly, the two distributions $p(\mathbf{x}|\mathbf{z};\theta)$ and $q(\mathbf{z}|\mathbf{x};\phi)$ are learned through a neural network with parameters $\theta$ and $\phi$ respectively. Revisiting the ELBO, now reparametrized with $\theta$ and $\phi$ as $q$ is parametrized on the latter,
+\subsection{Extending the EM Algorithm}
+The Variational Autoencoder (VAE) is a popular extension of the EM Algorithm. Particularly, the \textbf{E-step} of most EM algorithm involves computing $q_i^{(t)}(\mathbf{z})=p(\mathbf{z}|\mathbf{x}_i;\theta^{(t)})$ for $i=1,2,\dots,n$, which is often an \textbf{intractable problem} for most distributions. The VAE replaces the posterior $p(\mathbf{z}|\mathbf{x}_i;\theta^{(t)})$ by a learnable distribution $q$ parametrized by $\phi$. Commonly, the two distributions $p(\mathbf{x}|\mathbf{z};\theta)$ (\textbf{Decoder}) and $q(\mathbf{z}|\mathbf{x};\phi)$ (\textbf{Encoder}) are learned through a neural network with parameters $\theta$ and $\phi$ respectively. Revisiting the ELBO, now reparametrized with $\theta$ and $\phi$ as $q$ is parametrized on the latter,
 \begin{align*}
     \text{ELBO}(\mathbf{x},\theta,\phi)
     &= \int q(\mathbf{z}|\mathbf{x};\phi) \log\left(\frac{p(\mathbf{x},\mathbf{z};\theta)}{q(\mathbf{z}|\mathbf{x};\phi)}\right) d\mathbf{z} \\
@@ -119,5 +119,21 @@ The Variational Autoencoder (VAE) is a popular extension of the EM Algorithm. Pa
     &= \int q(\mathbf{z}|\mathbf{x};\phi) \log(p(\mathbf{x}|\mathbf{z};\theta)) d\mathbf{z} - \int q(\mathbf{z}|\mathbf{x};\phi) \log\left(\frac{q(\mathbf{z}|\mathbf{x};\phi)}{p(\mathbf{z};\theta)}\right) d\mathbf{z}
 \end{align*}
 \begin{itemize}
-    \item The first term $\int q(\mathbf{z}|\mathbf{x};\phi) \log(p(\mathbf{x}|\mathbf{z};\theta)) d\mathbf{z}$
+    \item The first term $\int q(\mathbf{z}|\mathbf{x};\phi) \log(p(\mathbf{x}|\mathbf{z};\theta)) d\mathbf{z}=\E_{\mathbf{z}\sim q_{\phi}}[\log(p(\mathbf{x}|\mathbf{z};\theta))]$ can be derived further under the assumption that $p(\mathbf{x}|\mathbf{z};\theta)$ is Gaussian of some mean $\mu_{\theta}(\mathbf{z})$ parameterized on $\theta$ and a constant diagonal covariance $\sigma^2 \mathbf{I}_{d\times d}$
+    \begin{align*}
+        \log(p(\mathbf{x}|\mathbf{z};\theta))
+        &= \log\left( \frac{1}{\sigma^d (2\pi)^{d/2}} \exp\left( -\frac{\|\mathbf{x} - \mu_\theta(\mathbf{z})\|_2^2}{2\sigma^2} \right) \right) \\
+        &= -\|\mathbf{x} - \mu_\theta(\mathbf{z})\|_2^2 + C
+    \end{align*}
+    when the constant terms are grouped to $C$. As such, optimizing this term is equivalent to minimizing $\E[\|\mathbf{x} - \mu_\theta(\mathbf{z})\|_2^2]$, the euclidean difference between the data point $\mathbf{x}$ and its reconstruction $\mu_\theta(\mathbf{z})$.
+    \item The second term $\int q(\mathbf{z}|\mathbf{x};\phi) \log\left(\frac{q(\mathbf{z}|\mathbf{x};\phi)}{p(\mathbf{z};\theta)}\right) d\mathbf{z}$ is the KL divergence between the two distributions $q(\mathbf{z}|\mathbf{x};\phi)$ and $p(\mathbf{z};\theta)$. We first assume $p(\mathbf{z};\theta)$ follows a standard $s-$dimensional Gaussian pdf. We then assume that $q(\mathbf{z}|\mathbf{x};\phi)$ follows $\normal(\mu_{\phi}(\mathbf{x}),\text{diag}(\sigma_{\phi}^2(\mathbf{x})))$ (when $\text{diag}(\mathbf{v})$ takes $\mathbf{v}\in\R^s$ and returns an $s\times s$ diagonal matrix with entries from the basis coefficient of $\mathbf{v}$). Using results from the preface, this KL divergence can be expressed as follows:
+    \[
+        \mathrm{KL}(q(\mathbf{z}|\mathbf{x};\phi) \| p(\mathbf{z};\theta)) = \frac{1}{2} \sum_{i=1}^s \left( \sigma_{\phi,i}^2(\mathbf{x}) + \mu_{\phi,i}^2(\mathbf{x}) - 1 - \log \sigma_{\phi,i}^2(\mathbf{x}) \right)
+    \]
+    \textbf{Remark:} this is known as the reparametrization trick; the encoder $q$ produces two vectors $\mu_{\phi}(\mathbf{x})$ and $\sigma_{\phi}^2(\mathbf{x})$ to parameterize the Gaussian distribution $\text{z}$ is then sampled from. Oftentimes, the log-variance is predicted instead to prevent negative-valued predictions.
 \end{itemize}
+\textbf{Conclusion} the VAE provides an alternative to EM algorithm's \textbf{E-step}, which involves an often intractable term $p(\mathbf{z}|\mathbf{x}_i;\theta^{(t)})$. Instead, the VAE learns two distributions $p(\mathbf{x}|\mathbf{z};\theta)$ (\textbf{Decoder}) and $q(\mathbf{z}|\mathbf{x};\phi)$ (\textbf{Encoder}) simultaneously to maximize the ELBO. By several assumptions of $p(\mathbf{x}|\mathbf{z};\theta)$, $q(\mathbf{z}|\mathbf{x};\phi)$, and $p(\mathbf{z};\theta)$ normality, the ELBO simplifies to a sum of the reconstruction loss and KL divergence
+\[
+    \hat{\theta},\hat{\phi} = \arg\min_{\theta,\phi} \E[\|\mathbf{x} - \mu_\theta(\mathbf{z})\|_2^2] + \frac{1}{2} \sum_{i=1}^s \left( \sigma_{\phi,i}^2(\mathbf{x}) + \mu_{\phi,i}^2(\mathbf{x}) - 1 - \log \sigma_{\phi,i}^2(\mathbf{x}) \right)
+\]
+which could be learned through (stochastic) gradient descent. Unlike the EM algorithm, the VAE is only able to improve the lower bound (ELBO) of the log-likelihood, meaning convergence could not be guaranteed.
