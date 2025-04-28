@@ -1,4 +1,4 @@
-\section{Expectation-Maximization (EM) Algorithm}
+\section{Expectation-Maximization Algorithms}
 This section aims to define a class of algorithms known as the Expectation-Maximization (EM) algorithm. These algorithms are designed to provide an approximate solution to MLE problems where, because of an unknown set of ``latent'' random variables, don't lead to a closed form solution.
 \begin{definition}[Distribution Learning with Hidden Latent Variables]
     Suppose there exists 
@@ -28,7 +28,7 @@ Like the expression for Gaussian Mixture Models, we may model the likelihood of 
 \end{align*}
 We're able to go from $(*)$ to $(**)$ using Jensen's inequality, as $\log$ is a convex function. This allows us to minimize the lower bound of $g(\theta,q)$ which indirectly optimizes the log-likelihood itself. This lower bound term is therefore dubbed the \textbf{evidence lower bound} (ELBO):
 \[
-\text{ELBO}(\mathbf{x};\theta,q) = \int q(\mathbf{z}) \log(p(\mathbf{x}|\mathbf{z};\theta)) d\mathbf{z}
+\text{ELBO}(\mathbf{x};\theta,q) := \int q(\mathbf{z}) \log(p(\mathbf{x}|\mathbf{z};\theta)) d\mathbf{z}
 \]
 \textbf{Finding the optimal prior:} For the tightest bound with Jensen inequality to hold, the expectation must be taken over a constant, meaning $p(\mathbf{x}|\mathbf{z};\theta)=c$ over some constant $c$. By Bayes' law,
 \begin{align*}
@@ -66,7 +66,7 @@ The EM algorithm aims to minimize the learning objective defined above, which, i
 \end{definition}
 A primary concern with such an algorithm is the convergence, which will promptly be proven
 \begin{theorem}[EM Algorithm Convergence]
-    The EM Algorithm defined above updates $\ell(\theta^{(t)})$ monotonically, that is, $\ell(\theta^{(t)})\ge \ell(\theta^{(t+1)})$.
+    The EM Algorithm defined above updates $\ell(\theta^{(t)})$ monotonically, that is, $\ell(\theta^{(t+1)})\ge \ell(\theta^{(t)})$.
 \end{theorem}
 \begin{proof}
     First, recall the the ELBO is defined such that $\ell(\theta) \ge \sum_{i=1}^n \text{ELBO}(\mathbf{x}_i;\theta,q_i)$ for any prior $q_i$. Furthermore, the choice for $q_i^{(t)}$ was made to ensure that Jensen's inequality holds with equality, meaning $\ell(\theta^{(t)})=\sum_{i=1}^n \text{ELBO}(\mathbf{x}_i;\theta^{(t)},q_i^{(t)})$. Therefore,
@@ -110,4 +110,14 @@ Furthermore, the optimization terms $\phi_z$ are a linear combination of several
 \[
 \phi_k = \frac{1}{n} \sum_{i=1}^n q_i^{(t)}(z)
 \]
-\subsection{EM Algorithm for Variational Inference}
+\subsection{Generalizing the EM Algorithm}
+The Variational Autoencoder (VAE) is a popular extension of the EM Algorithm. Particularly, the \textbf{E-step} of most EM algorithm involves computing $q_i^{(t)}(\mathbf{z})=p(\mathbf{z}|\mathbf{x}_i;\theta^{(t)})$ for $i=1,2,\dots,n$, which is often an \textbf{intractable problem} for most distributions. The VAE replaces the posterior $p(\mathbf{z}|\mathbf{x}_i;\theta^{(t)})$ by a learnable distribution $q$ parametrized by $\phi$. Commonly, the two distributions $p(\mathbf{x}|\mathbf{z};\theta)$ and $q(\mathbf{z}|\mathbf{x};\phi)$ are learned through a neural network with parameters $\theta$ and $\phi$ respectively. Revisiting the ELBO, now reparametrized with $\theta$ and $\phi$ as $q$ is parametrized on the latter,
+\begin{align*}
+    \text{ELBO}(\mathbf{x},\theta,\phi)
+    &= \int q(\mathbf{z}|\mathbf{x};\phi) \log\left(\frac{p(\mathbf{x},\mathbf{z};\theta)}{q(\mathbf{z}|\mathbf{x};\phi)}\right) d\mathbf{z} \\
+    &= \int q(\mathbf{z}|\mathbf{x};\phi) \log\left(\frac{p(\mathbf{x}|\mathbf{z};\theta)p(\mathbf{z};\theta)}{q(\mathbf{z}|\mathbf{x};\phi)}\right) d\mathbf{z} \\
+    &= \int q(\mathbf{z}|\mathbf{x};\phi) \log(p(\mathbf{x}|\mathbf{z};\theta)) d\mathbf{z} - \int q(\mathbf{z}|\mathbf{x};\phi) \log\left(\frac{q(\mathbf{z}|\mathbf{x};\phi)}{p(\mathbf{z};\theta)}\right) d\mathbf{z}
+\end{align*}
+\begin{itemize}
+    \item The first term $\int q(\mathbf{z}|\mathbf{x};\phi) \log(p(\mathbf{x}|\mathbf{z};\theta)) d\mathbf{z}$
+\end{itemize}
