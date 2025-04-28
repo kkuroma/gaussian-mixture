@@ -93,3 +93,70 @@ We aim to establish the mathematical derivations that will be use throughout the
     \]
     Put together, the empirical predictions are indeed the MLE, thus completing the proof.
 \end{proof}
+
+\begin{definition}[Kullback–Leibler (KL) Divergence]
+    The Kullback–Leibler (KL) divergence between two probability distributions $p$ and $q$ over a continuous domain is defined as
+    \[
+    \mathrm{KL}(p\|q) = \mathbb{E}_{\mathbf{x}\sim p} \left[ \log p(\mathbf{x}) - \log q(\mathbf{x}) \right] = \int p(\mathbf{x}) \log\left( \frac{p(\mathbf{x})}{q(\mathbf{x})} \right) \, d\mathbf{x}
+    \]
+    It measures the extent to which the distribution $p$ differs from the distribution $q$. It's called a divergence as $\mathrm{KL}(p\|q)$ and $\mathrm{KL}(q\|p)$ are not necessarily equal.
+\end{definition}
+
+\begin{theorem}[KL Divergence of Multivariate Gaussians]
+    Given two multivariate Gaussian distributions $p=\mathcal{N}(\boldsymbol{\mu}_p,\Sigma_p)$ and $q=\mathcal{N}(\boldsymbol{\mu}_q,\Sigma_q)$, the KL divergence between them is
+    \[
+    \mathrm{KL}(p\|q) = \frac{1}{2} \left( \log\frac{|\Sigma_q|}{|\Sigma_p|} - d + \operatorname{Tr}(\Sigma_q^{-1}\Sigma_p) + (\boldsymbol{\mu}_q - \boldsymbol{\mu}_p)^\top \Sigma_q^{-1} (\boldsymbol{\mu}_q - \boldsymbol{\mu}_p) \right)
+    \]
+\end{theorem}
+
+\begin{proof}
+    By definition, the KL divergence is
+    \[
+    \mathrm{KL}(p\|q) = \mathbb{E}_{\mathbf{x}\sim p} \left[ \log p(\mathbf{x}) - \log q(\mathbf{x}) \right]
+    \]
+    Using the density of a multivariate Gaussian, we have
+    \[
+    \log p(\mathbf{x}) = -\frac{d}{2}\log(2\pi) - \frac{1}{2}\log|\Sigma_p| - \frac{1}{2} (\mathbf{x} - \boldsymbol{\mu}_p)^\top \Sigma_p^{-1} (\mathbf{x} - \boldsymbol{\mu}_p)
+    \]
+    and
+    \[
+    \log q(\mathbf{x}) = -\frac{d}{2}\log(2\pi) - \frac{1}{2}\log|\Sigma_q| - \frac{1}{2} (\mathbf{x} - \boldsymbol{\mu}_q)^\top \Sigma_q^{-1} (\mathbf{x} - \boldsymbol{\mu}_q)
+    \]
+    Substituting into the KL formula, the constant $-\frac{d}{2}\log(2\pi)$ cancels out, giving
+    \[
+    \mathrm{KL}(p\|q) = \mathbb{E}_{\mathbf{x}\sim p} \left[ -\frac{1}{2}\log|\Sigma_p| + \frac{1}{2}\log|\Sigma_q| -\frac{1}{2} (\mathbf{x} - \boldsymbol{\mu}_p)^\top \Sigma_p^{-1} (\mathbf{x} - \boldsymbol{\mu}_p) + \frac{1}{2} (\mathbf{x} - \boldsymbol{\mu}_q)^\top \Sigma_q^{-1} (\mathbf{x} - \boldsymbol{\mu}_q) \right]
+    \]
+    Grouping constants:
+    \[
+    \mathrm{KL}(p\|q) = \frac{1}{2} \left( \log\frac{|\Sigma_q|}{|\Sigma_p|} + \mathbb{E}_{\mathbf{x}\sim p}\left[ (\mathbf{x} - \boldsymbol{\mu}_q)^\top \Sigma_q^{-1} (\mathbf{x} - \boldsymbol{\mu}_q) - (\mathbf{x} - \boldsymbol{\mu}_p)^\top \Sigma_p^{-1} (\mathbf{x} - \boldsymbol{\mu}_p) \right] \right)
+    \]
+    Now, expand each quadratic form separately. First,
+    \[
+    (\mathbf{x} - \boldsymbol{\mu}_q)^\top \Sigma_q^{-1} (\mathbf{x} - \boldsymbol{\mu}_q) = (\mathbf{x} - \boldsymbol{\mu}_p + \boldsymbol{\mu}_p - \boldsymbol{\mu}_q)^\top \Sigma_q^{-1} (\mathbf{x} - \boldsymbol{\mu}_p + \boldsymbol{\mu}_p - \boldsymbol{\mu}_q)
+    \]
+    Expanding the square,
+    \[
+    = (\mathbf{x} - \boldsymbol{\mu}_p)^\top \Sigma_q^{-1} (\mathbf{x} - \boldsymbol{\mu}_p) + 2(\mathbf{x} - \boldsymbol{\mu}_p)^\top \Sigma_q^{-1} (\boldsymbol{\mu}_p - \boldsymbol{\mu}_q) + (\boldsymbol{\mu}_p - \boldsymbol{\mu}_q)^\top \Sigma_q^{-1} (\boldsymbol{\mu}_p - \boldsymbol{\mu}_q)
+    \]
+    Taking expectation under $\mathbf{x}\sim p$, and using that $\mathbb{E}[\mathbf{x}] = \boldsymbol{\mu}_p$ and $\mathbb{E}[(\mathbf{x} - \boldsymbol{\mu}_p)(\mathbf{x} - \boldsymbol{\mu}_p)^\top] = \Sigma_p$, we get
+    \[
+    \mathbb{E}\left[ (\mathbf{x} - \boldsymbol{\mu}_p)^\top \Sigma_q^{-1} (\mathbf{x} - \boldsymbol{\mu}_p) \right] = \operatorname{Tr}(\Sigma_q^{-1} \Sigma_p)
+    \]
+    and
+    \[
+    \mathbb{E}\left[ 2(\mathbf{x} - \boldsymbol{\mu}_p)^\top \Sigma_q^{-1} (\boldsymbol{\mu}_p - \boldsymbol{\mu}_q) \right] = 0
+    \]
+    because the expectation of $\mathbf{x}-\boldsymbol{\mu}_p$ is zero. The third term is constant and remains
+    \[
+    (\boldsymbol{\mu}_p - \boldsymbol{\mu}_q)^\top \Sigma_q^{-1} (\boldsymbol{\mu}_p - \boldsymbol{\mu}_q)
+    \]
+    Similarly, for the second expectation
+    \[
+    \mathbb{E}\left[ (\mathbf{x} - \boldsymbol{\mu}_p)^\top \Sigma_p^{-1} (\mathbf{x} - \boldsymbol{\mu}_p) \right] = \operatorname{Tr}(\Sigma_p^{-1} \Sigma_p) = d
+    \]
+    Putting everything together:
+    \[
+    \mathrm{KL}(p\|q) = \frac{1}{2} \left( \log\frac{|\Sigma_q|}{|\Sigma_p|} - d + \operatorname{Tr}(\Sigma_q^{-1}\Sigma_p) + (\boldsymbol{\mu}_q - \boldsymbol{\mu}_p)^\top \Sigma_q^{-1} (\boldsymbol{\mu}_q - \boldsymbol{\mu}_p) \right)
+    \]
+    thus completing the proof.
+\end{proof}

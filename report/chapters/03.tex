@@ -1,4 +1,21 @@
 \section{Unsupervised Classification}
+\begin{definition}[Unsupervised Classification]
+    Given data vectors $\mathbf{x}_1,\mathbf{x}_2,\dots,\mathbf{x}_n\in\R^d$ and a set of possible classes $\mathcal{C}=\{1,2,\dots,k\}$, we attempt to find $z_1,z_2,\dots,z_n\in \mathcal{C}$ and parameters $\theta$ such that $\prod_{i=1}^n p(\mathbf{x}_i,z_i;\theta)$. In other words, the MLE under a known distribution type is maximized.
+\end{definition}
+This definition can seen as a reformulation of the ``Distribution Learning with Hidden Latent Variables'' where $\mathbf{z}_i$ is limited to a discrete set. By solving for $q$ with EM, we're able to derive the MLE for the classes $z_i$ as follows
+\begin{align*}
+    \hat{z} 
+    &= \arg\max_{z\in\mathcal{C}} p(z|\mathbf{x};\theta) \\
+    &= \arg\max_{z\in\mathcal{C}} \frac{p(\mathbf{x}|z;\theta)p(z)}{p(\mathbf{x})} & \text{Bayes' Rule}\\
+    &= \arg\max_{z\in\mathcal{C}} p(\mathbf{x}|z;\theta)p(z) & p(\mathbf{x})\text{ is constant} \\
+    &= \arg\max_{z\in\mathcal{C}} p(\mathbf{x}|z;\theta)\hat{q}(z) & \hat{q}\text{ is an estimate of the prior}
+\end{align*}
+
 \subsection{K-means Clustering}
+The K-means clustering finds an estimate to the unsupervised classification problem using the following procedure. First assign centroids $\boldsymbol{\mu}_j^{(0)}$ for $j=\{1,2,\dots,k\}$ to random points.
+\begin{itemize}
+    \item 
+\end{itemize}
+In this section, we argue that the algorithm above can be seen as a special case of the EM algorithm.
 \subsection{Gaussian Mixture Classification}
 \subsection{Comparison}
