@@ -108,8 +108,9 @@ Notice that the optimization terms for $\boldsymbol{\mu}_z$ and $\Sigma_z$ is a 
 \]
 Furthermore, the optimization terms $\phi_z$ are a linear combination of several log-likelihood terms of the categorical sampling. Similarly, we can use the results the preface to conclude that for $z=1,2,\dots,k$
 \[
-\phi_k = \frac{1}{n} \sum_{i=1}^n q_i^{(t)}(z)
+\phi_z = \frac{1}{n} \sum_{i=1}^n q_i^{(t)}(z)
 \]
+\textbf{Conclusion}: The Gaussian Mixture problem can be seen as a special case for the previously defined ``Distribution Learning with Hidden Latent Variables'' problem. Using the EM algorithm, we're able to derive an iterative procedure that approximates $\boldsymbol{\mu}_z,\Sigma_z,\phi_z$ in a closed form.
 \subsection{Extending the EM Algorithm}
 The Variational Autoencoder (VAE) is a popular extension of the EM Algorithm. Particularly, the \textbf{E-step} of most EM algorithm involves computing $q_i^{(t)}(\mathbf{z})=p(\mathbf{z}|\mathbf{x}_i;\theta^{(t)})$ for $i=1,2,\dots,n$, which is often an \textbf{intractable problem} for most distributions. The VAE replaces the posterior $p(\mathbf{z}|\mathbf{x}_i;\theta^{(t)})$ by a learnable distribution $q$ parametrized by $\phi$. Commonly, the two distributions $p(\mathbf{x}|\mathbf{z};\theta)$ (\textbf{Decoder}) and $q(\mathbf{z}|\mathbf{x};\phi)$ (\textbf{Encoder}) are learned through a neural network with parameters $\theta$ and $\phi$ respectively. Revisiting the ELBO, now reparametrized with $\theta$ and $\phi$ as $q$ is parametrized on the latter,
 \begin{align*}
