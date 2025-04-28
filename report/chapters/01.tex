@@ -20,4 +20,10 @@ We present two applications of the unsupervised version of the Gaussian Mixture 
     \item \textbf{Conditional generation}: the Gaussian Mixture model allows data outside of the given set to be sampled from the resulting Gaussian distributions, conditioned on one of the possible classes.
 \end{itemize}
 \subsection{Gaussian Mixture as MLE Problem}
-The likelihood of the 
+Given access to only the data vectors $\textbf{x}_i$ for $i=1,2,\dots,n$, one may model the likelihood of the parameters ${\{\phi_j,\boldsymbol{\mu}_j,\Sigma_j\}}_{j=1}^k$ as follows:
+\begin{align*}
+    f({\{\phi_j,\boldsymbol{\mu}_j,\Sigma_j\}}_{j=1}^k) 
+    &= \prod_{i=1}^n \sum_{z=1}^k \p(Z=k)p(\mathbf{x}_n;\boldsymbol{\mu}_k,\Sigma_k) \\
+    &= \prod_{i=1}^n \sum_{z=1}^k \prod_{i=1}^n \frac{\phi_z}{(2\pi)^{d/2}|\Sigma_z|^{1/2}} \exp\left( -\frac{1}{2} (\mathbf{x}_i - \boldsymbol{\mu}_z)^\top \Sigma_z^{-1} (\mathbf{x}_i - \boldsymbol{\mu}_z) \right)
+\end{align*}
+This results in a double summation once a logarithm is taken, particularly with the term inside logarithm being a summation. While a closed form MLE solution doesn't exist for this expression, the use of the EM algorithm explained over the next sections will help us iteratively solve for a good approximate.

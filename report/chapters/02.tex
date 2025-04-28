@@ -1,4 +1,54 @@
 \section{Expectation-Maximization (EM) Algorithm}
+This section aims to define a class of algorithms known as the Expectation-Maximization (EM) algorithm. These algorithms are designed to provide an approximate solution to MLE problems where, because of an unknown set of ``latent'' random variables, don't lead to a closed form solution.
+\begin{definition}[Distribution Learning with Hidden Latent Variables]
+    Suppose there exists 
+    \begin{itemize}
+        \item A distribution $\mathcal{P}$ from $\R^d$ with a joint pdf $p$ and an unknown parameter $\theta_*$
+        \item A distribution $\mathcal{Q}_*$ from $\R^s$ with a pdf $q_*$.
+    \end{itemize}
+    Note that $\mathcal{P}$ and $\mathcal{Q}_*$ can either be explicitly given or not. Hidden behind the scenes, we sample IID:
+    \begin{itemize}
+        \item For $i=1,2,\dots,n$, $\mathbf{z}_i\sim\mathcal{Q}_*$ (that is, following the pdf of $q_*(\mathbf{z}_i)$)
+        \item For $i=1,2,\dots,n$, $\mathbf{x}_i|\mathbf{z}_i\sim\mathcal{P}_{\theta_*}$ (that is, following the pdf of $p(\mathbf{x}_i|\mathbf{z}_i;\theta_*)$)
+    \end{itemize}
+    Given access to only $\mathbf{x}_i$ for $i=1,2,\dots,n$, find an estimate for $\theta_*$ and $q_*$ (the latter if not explicitly given).
+\end{definition}
+\subsection{The Evidence Lower Bound (ELBO)}
+Like the expression for Gaussian Mixture Models, we may model the likelihood of $\theta$ and $q$ as follows:
+\begin{align*}
+        f(\theta,q) 
+        &= \prod_{i=1}^n \int p(\mathbf{x}_i,\mathbf{z};\theta)d\mathbf{z}\\
+        &= \prod_{i=1}^n \int q(\mathbf{z}) p(\mathbf{x}_i|\mathbf{z};\theta)d\mathbf{z}\\
+        &= \prod_{i=1}^n \E_\mathbf{z}\left[p(\mathbf{x}_i|\mathbf{z};\theta)\right]\\
+        g(\theta,q) 
+        &= \log(f(\theta,q)) \\
+        &= \sum_{i=1}^n \log\left(\E_\mathbf{z}\left[p(\mathbf{x}_i|\mathbf{z};\theta)\right]\right) \quad (*) \\
+        &\ge \sum_{i=1}^n \E_\mathbf{z}\left[\log\left(p(\mathbf{x}_i|\mathbf{z};\theta)\right)\right] \quad (**) \\
+        &= \sum_{i=1}^n \int q(\mathbf{z}) \log(p(\mathbf{x}_i|\mathbf{z};\theta)) d\mathbf{z}
+\end{align*}
+We're able to go from $(*)$ to $(**)$ using Jensen's inequality, as $\log$ is a convex function. This allows us to minimize the lower bound of $g(\theta,q)$ which indirectly optimizes the log-likelihood itself. This lower bound term is therefore dubbed the \textbf{evidence lower bound} (ELBO):
+\[
+\text{ELBO}(\mathbf{x},\theta,q) = \int q(\mathbf{z}) \log(p(\mathbf{x}|\mathbf{z};\theta)) d\mathbf{z}
+\]
+\textbf{Finding the optimal prior:} For the tightest bound with Jensen inequality to hold, the expectation must be taken over a constant, meaning $p(\mathbf{x}_i|\mathbf{z};\theta)=c$ over some constant $c$. By Bayes' law,
+\begin{align*}
+    p(\mathbf{x}_i|\mathbf{z};\theta)&=c\\
+    \frac{p(\mathbf{x}_i,\mathbf{z};\theta)}{q(\mathbf{z})}&=c\\
+    q(\mathbf{z}) \propto p(\mathbf{x}_i,\mathbf{z};\theta)
+\end{align*}
+And since $\int_{\mathbf{z}} q(\mathbf{z}) d\mathbf{z}=1$,
+\begin{align*}
+    q(\mathbf{z}) \
+    &= \frac{q(\mathbf{z})}{\int_{\mathbf{z}} q(\mathbf{z}) d\mathbf{z}} \\
+    &= \frac{p(\mathbf{x}_i,\mathbf{z};\theta)}{\int_{\mathbf{z}} p(\mathbf{x}_i,\mathbf{z};\theta)} \\
+    &= \frac{p(\mathbf{x}_i,\mathbf{z};\theta)}{p(\mathbf{x}_i,\theta)} \\
+    &= p(\mathbf{z}|\mathbf{x}_i;\theta)
+\end{align*}
+With this, we may re-write the lower bound of our log-likelihood as follows:
+\[
+    g(\theta,q) \ge \sum_{i=1}^n \text{ELBO}(\mathbf{x}_i,\theta,q)
+\]
+Moreover, we may isolate $\theta$ from the expression by summing up all 
 \subsection{Defining EM Algorithms}
 \subsection{EM Algorithm for Gaussian Mixture Models}
 \subsection{EM Algorithm for Variational Inference}
