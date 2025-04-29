@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021/CVE-2023-32700 patched) (preloaded format=pdflatex 2025.4.27)  28 APR 2025 20:18
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021/CVE-2023-32700 patched) (preloaded format=pdflatex 2025.4.27)  28 APR 2025 21:04
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -629,7 +629,7 @@ Package: fancyhdr 2022/11/09 v4.1 Extensive control of page headers and footers
 \f@nch@O@erf=\skip65
 \f@nch@O@olf=\skip66
 \f@nch@O@orf=\skip67
-) (./main.aux (./chapters/00.aux) (./chapters/01.aux) (./chapters/02.aux) (./chapters/03.aux) (./chapters/04.aux) (./chapters/05.aux))
+) (./main.aux (./chapters/00.aux) (./chapters/01.aux) (./chapters/02.aux) (./chapters/03.aux) (./chapters/04.aux))
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 48.
@@ -783,35 +783,23 @@ Package fancyhdr Warning: \fancyfoot's `E' option without twoside option is usel
 
 
 
-]
-\openout2 = `chapters/05.aux'.
-
- (./chapters/05.tex
-Underfull \hbox (badness 10000) in paragraph at lines 15--17
-
- []
-
-) [13
-
-
-
-] (./main.aux (./chapters/00.aux) (./chapters/01.aux) (./chapters/02.aux) (./chapters/03.aux) (./chapters/04.aux) (./chapters/05.aux))
+] (./main.aux (./chapters/00.aux) (./chapters/01.aux) (./chapters/02.aux) (./chapters/03.aux) (./chapters/04.aux))
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: C7C9F29328C17CAFF529570DF36DBCB2;5071.
+(rerunfilecheck)             Checksum: BADD5DE7D545993E12381A24ED4469DB;4102.
  ) 
 Here is how much of TeX's memory you used:
- 37329 strings out of 480852
- 868814 string characters out of 5906850
- 1294885 words of memory out of 6000000
- 53949 multiletter control sequences out of 15000+600000
+ 37301 strings out of 480852
+ 868400 string characters out of 5906850
+ 1294312 words of memory out of 6000000
+ 53938 multiletter control sequences out of 15000+600000
  415876 words of font info for 77 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  99i,14n,103p,886b,609s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/esint-type1/esint10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on main.pdf (13 pages, 289589 bytes).
+Output written on main.pdf (12 pages, 284880 bytes).
 PDF statistics:
- 354 PDF objects out of 1000 (max. 8388607)
- 289 compressed objects within 3 object streams
- 57 named destinations out of 1000 (max. 500000)
- 357 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 318 PDF objects out of 1000 (max. 8388607)
+ 254 compressed objects within 3 object streams
+ 47 named destinations out of 1000 (max. 500000)
+ 317 words of extra memory for PDF output out of 10000 (max. 10000000)
 
