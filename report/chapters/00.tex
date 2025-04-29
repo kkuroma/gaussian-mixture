@@ -1,5 +1,5 @@
 \section*{Preface}
-We aim to establish the mathematical derivations that will be use throughout the document here.
+We aim to establish the mathematical derivations that will be used throughout the document here.
 \begin{theorem}[MLE of Categorical Sampling]
     Given $y_1,y_2,\dots,y_n$ are sampled IID from $\{1,2,\dots,k\}$ such that $\p(y_i=j)=\phi_j$, $\sum_{j=1}^k=\phi_j$, the MLE for $\phi_i$ is given by
     \[
@@ -94,13 +94,37 @@ We aim to establish the mathematical derivations that will be use throughout the
     Put together, the empirical predictions are indeed the MLE, thus completing the proof.
 \end{proof}
 
-\begin{definition}[Kullback–Leibler (KL) Divergence]
-    The Kullback–Leibler (KL) divergence between two probability distributions $p$ and $q$ over a continuous domain is defined as
-    \[
-    \mathrm{KL}(p\|q) = \mathbb{E}_{\mathbf{x}\sim p} \left[ \log p(\mathbf{x}) - \log q(\mathbf{x}) \right] = \int p(\mathbf{x}) \log\left( \frac{p(\mathbf{x})}{q(\mathbf{x})} \right) \, d\mathbf{x}
-    \]
-    It measures the extent to which the distribution $p$ differs from the distribution $q$. It's called a divergence as $\mathrm{KL}(p\|q)$ and $\mathrm{KL}(q\|p)$ are not necessarily equal.
+\subsection{Motivation for KL divergence in Variational Autoencoders}
+Variational Autoencoder (VAE) involves two loss functions, the reconstruction loss and the Kullback-Leibler (KL) divergence. The reconstruction loss measures how accurate is the generated data compared to the true data. We also require a measure of the statistical distance between the true distribution and the approximating distribution, to ensure a better more accurate latent space. For that, we use KL divergence.
+KL divergence is preferred over other statistical distance measures in this case, as KL divergence helps in making optimization simpler by allowing us to eliminate an intractable term.
+\begin{definition}[Kullback-Leibler Divergence]
+Kullback-Leibler (KL) divergence is a measure of how much different is the approximating probability distribution \( Q \) from the true distribution \( P \). Mathematically, we write: 
+For discrete random variables; it is a measure of how much information is lost when a distribution is used to approximate another distribution.
+\begin{equation}
+D_{KL}(P || Q) = \sum_{x \in X} P(x) \log \frac{P(x)}{Q(x)}
+\end{equation}
+where \( P \) and \( Q \) are two probability distributions over the same variable \( x \). \newline
+For continuous random variables, 
+\begin{equation}
+D_{KL}(P || Q) = \int_{-\infty}^{\infty} p(x) \log \frac{p(x)}{q(x)} dx
+\end{equation}
+where \( p(x) \) and \( q(x) \) are the probability density functions of the distributions \( P \) and \( Q \), respectively.
 \end{definition}
+\subsection{Asymmetry of KL Divergence}
+\begin{itemize}
+    \item KL divergence is not symmetric. Mathematically, we have, 
+    \begin{equation}
+    D_{KL}(P || Q) \neq D_{KL}(Q || P) 
+    \end{equation}
+    \item Within the context of VAE, the KL divergence terms in both EM and ELBO, we encounter an intractable posterior, as a way around that, we use the reverse KL divergence, despite this asymmetry.
+    \item We write the reverse KL divergence as:
+    \begin{equation}
+    D_{KL}(Q || P) = \sum_{x \in X} Q(x) \log \frac{Q(x)}{P(x)}
+    \end{equation}
+\end{itemize}
+\subsection{Forward vs Reverse KL divergence}
+In general, the forward KL divergence is mode-averaging, while the reverse KL divergence is mode-fitting. Meaning the latter is less sensitive to tails of our distributions, and instead focuses on the mode of our data, so we see a greater likelihood of generating samples similar to the mode instead of a larger number of samples generated that are less likely in our true distribution. This makes our model more robust to outliers, and potentially more accurate. Also justifying the use of reverse KL divergence in our approach despite the asymmetry of KL divergence. 
+Further, this assymetry is also useful since if we consider $D_{KL}(P||Q)$ and $D_{KL}(Q||P)$, since the true posterior is generally more complex than the approximating distribution, so by encoding the approximating distribution using the true posterior we can achieve a lower KL divergence, and thus better optimizating performance. As we will develop next, we would like to minimize the KL divergence when optimizing. 
 
 \begin{theorem}[KL Divergence of Multivariate Gaussians]
     Given two multivariate Gaussian distributions $p=\mathcal{N}(\boldsymbol{\mu}_p,\Sigma_p)$ and $q=\mathcal{N}(\boldsymbol{\mu}_q,\Sigma_q)$, the KL divergence between them is
