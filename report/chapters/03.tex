@@ -1,4 +1,4 @@
-\section{Unsupervised Classification}
+\section{Applications of EM: Unsupervised Classification}
 \begin{definition}[Unsupervised Classification]
     Given data vectors $\mathbf{x}_1,\mathbf{x}_2,\dots,\mathbf{x}_n\in\R^d$ and a set of possible classes $\mathcal{C}=\{1,2,\dots,k\}$, we attempt to find $z_1,z_2,\dots,z_n\in \mathcal{C}$ and parameters $\theta$ such that $\prod_{i=1}^n p(\mathbf{x}_i,z_i;\theta)$. In other words, the MLE under a known distribution type is maximized.
 \end{definition}
@@ -12,10 +12,21 @@ This definition can seen as a reformulation of the ``Distribution Learning with 
 \end{align*}
 
 \subsection{K-means Clustering}
-The K-means clustering finds an estimate to the unsupervised classification problem using the following procedure. First assign centroids $\boldsymbol{\mu}_j^{(0)}$ for $j=\{1,2,\dots,k\}$ to random points.
+The K-means clustering finds an estimate to the unsupervised classification problem using the following procedure. First assign centroids $\boldsymbol{\mu}_j^{(0)}$ for $j=\{1,2,\dots,k\}$ to random points. Until convergence, run
 \begin{itemize}
+    \item $\mathcal{S}_j^{(t)} = \{i\in\{1,2,\dots,n\}:j=\arg\max_l\|\boldsymbol{\mu}_l^{(t)}-\mathbf{x}_i\|_2^2\}$
+    \item $\boldsymbol{\mu}_j^{(t+1)}=\frac{1}{|\mathcal{S}_j^{(t)}|}\sum_{i\in \mathcal{S}_j^{(t)}} \mathbf{x}_i$
+\end{itemize}
+Finally, assign $\hat{z}_i=\arg\max_j\|\boldsymbol{\mu}_j^{(t)}-\mathbf{x}_i\|_2^2$. We will first argue that the algorithm above can be seen as a special case of the EM algorithm. Consider a simpler case of the Gaussian Mixture problem such that:
+\begin{itemize}
+    \item For $j=\{1,2,\dots,k\}$, $\phi_j=\frac{1}{k}$ (each cluster has an equal chance of being assigned)
+    \item For $j=\{1,2,\dots,k\}$, $\Sigma_j=\sigma^2\mathbf{I}_{d\times d}$, this value of $\sigma$ will be clarified later.
     \item 
 \end{itemize}
-In this section, we argue that the algorithm above can be seen as a special case of the EM algorithm.
+Knowing $\phi_j$, we are able to simply the E- and M- step into a single expression
+\begin{align*}
+    \text{The idea is that we take the limit of }\sigma\rightarrow0\text{ which makes the gaussian sharp}
+\end{align*}
+
 \subsection{Gaussian Mixture Classification}
 \subsection{Comparison}

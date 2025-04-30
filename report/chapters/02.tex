@@ -102,13 +102,13 @@ We revisit the problem of Gaussian Mixture Models, now armed with the knowledge 
 \end{itemize}
 Notice that the optimization terms for $\boldsymbol{\mu}_z$ and $\Sigma_z$ is a linear combination of several log-likelihood terms of regular Gaussian fitting. Indeed, we are able to use the results from the preface to conclude that for $z=1,2,\dots,k$
 \[
-\boldsymbol{\mu}_z = \frac{\sum_{i=1}^n q_i^{(t)}(z) \mathbf{x}_i}{\sum_{i=1}^n q_i^{(t)}(z)}
+\boldsymbol{\mu}_z^{(t)} = \frac{\sum_{i=1}^n q_i^{(t)}(z) \mathbf{x}_i}{\sum_{i=1}^n q_i^{(t)}(z)}
 \text{ and }
-\Sigma_z = \frac{\sum_{i=1}^n q_i^{(t)}(z) (\mathbf{x}_i-\boldsymbol{\mu}_z)(\mathbf{x}_i-\boldsymbol{\mu}_z)^\top}{\sum_{i=1}^n q_i^{(t)}(z)}
+\Sigma_z^{(t)}  = \frac{\sum_{i=1}^n q_i^{(t)}(z) (\mathbf{x}_i-\boldsymbol{\mu}_z)(\mathbf{x}_i-\boldsymbol{\mu}_z)^\top}{\sum_{i=1}^n q_i^{(t)}(z)}
 \]
 Furthermore, the optimization terms $\phi_z$ are a linear combination of several log-likelihood terms of the categorical sampling. Similarly, we can use the results the preface to conclude that for $z=1,2,\dots,k$
 \[
-\phi_z = \frac{1}{n} \sum_{i=1}^n q_i^{(t)}(z)
+\phi_z^{(t)}  = \frac{1}{n} \sum_{i=1}^n q_i^{(t)}(z)
 \]
 \textbf{Conclusion}: The Gaussian Mixture problem can be seen as a special case for the previously defined ``Distribution Learning with Hidden Latent Variables'' problem. Using the EM algorithm, we're able to derive an iterative procedure that approximates $\boldsymbol{\mu}_z,\Sigma_z,\phi_z$ in a closed form.
 \subsection{Extending the EM Algorithm}
