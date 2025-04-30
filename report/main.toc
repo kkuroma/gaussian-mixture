@@ -12,9 +12,9 @@
 \contentsline {subsection}{\numberline {2.4}Extending the EM Algorithm}{9}{subsection.2.4}%
 \contentsline {section}{\numberline {3}Applications of EM: Unsupervised Classification}{11}{section.3}%
 \contentsline {subsection}{\numberline {3.1}K-means Clustering}{11}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}Gaussian Mixture Classification}{11}{subsection.3.2}%
-\contentsline {subsection}{\numberline {3.3}Comparison}{11}{subsection.3.3}%
-\contentsline {section}{\numberline {4}Applications of EM: Conditional Generation}{12}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Pure Gaussian Mixture Models}{12}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Gaussian Mixture Variational Autoencoders}{12}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}Comparison}{12}{subsection.4.3}%
+\contentsline {subsection}{\numberline {3.2}Gaussian Mixture Classification}{12}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Comparison}{12}{subsection.3.3}%
+\contentsline {section}{\numberline {4}Applications of EM: Conditional Generation}{13}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Pure Gaussian Mixture Models}{13}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Gaussian Mixture Variational Autoencoders}{13}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Comparison}{13}{subsection.4.3}%

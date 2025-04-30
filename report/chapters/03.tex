@@ -17,16 +17,39 @@ The K-means clustering finds an estimate to the unsupervised classification prob
     \item $\mathcal{S}_j^{(t)} = \{i\in\{1,2,\dots,n\}:j=\arg\max_l\|\boldsymbol{\mu}_l^{(t)}-\mathbf{x}_i\|_2^2\}$
     \item $\boldsymbol{\mu}_j^{(t+1)}=\frac{1}{|\mathcal{S}_j^{(t)}|}\sum_{i\in \mathcal{S}_j^{(t)}} \mathbf{x}_i$
 \end{itemize}
-Finally, assign $\hat{z}_i=\arg\max_j\|\boldsymbol{\mu}_j^{(t)}-\mathbf{x}_i\|_2^2$. We will first argue that the algorithm above can be seen as a special case of the EM algorithm. Consider a simpler case of the Gaussian Mixture problem such that:
+Finally, assign $\hat{z}_i=\arg\min_j\|\boldsymbol{\mu}_j^{(t)}-\mathbf{x}_i\|_2^2$. We will first argue that the algorithm above can be seen as a special case of the EM algorithm. Consider a simpler case of the Gaussian Mixture problem such that:
 \begin{itemize}
     \item For $j=\{1,2,\dots,k\}$, $\phi_j=\frac{1}{k}$ (each cluster has an equal chance of being assigned)
     \item For $j=\{1,2,\dots,k\}$, $\Sigma_j=\sigma^2\mathbf{I}_{d\times d}$, this value of $\sigma$ will be clarified later.
-    \item 
 \end{itemize}
-Knowing $\phi_j$, we are able to simply the E- and M- step into a single expression
-\begin{align*}
-    \text{The idea is that we take the limit of }\sigma\rightarrow0\text{ which makes the gaussian sharp}
-\end{align*}
+Knowing $\phi_j$, we are able to simply the E-step as follows:
+\[
+    q_i^{(t)}(z) = p(z|\mathbf{x}_i;\theta^{(t)}) = \frac{p(\mathbf{x}_i,z;\theta^{(t)})}{\sum_{j=1}^k p(\mathbf{x}_i,j;\theta^{(t)})} = \frac{\exp(-\|\mathbf{x}_i-\boldsymbol{\mu}^{(t)}_z\|_2^2/2\sigma^2)}{\sum_{j=1}^k \exp(-\|\mathbf{x}_i-\boldsymbol{\mu}_j\|_2^2/2\sigma^2)}
+\]
+the next trick involves taking the limit of $\sigma\to0$, which implies that each Gaussian cluster converges to an impulse function. This is also called \textbf{hard-labeling}. We could simply to the final term as $1/\sigma$ dominates in the term where $\|\mathbf{x}_i-\boldsymbol{\mu}^{(t)}_j\|_2^2$ is smallest.
+\[
+\lim_{\sigma\rightarrow0} q_i^{(t)}(z) = \lim_{\sigma\rightarrow0} \frac{\exp(-\|\mathbf{x}_i-\boldsymbol{\mu}^{(t)}_z\|_2^2/2\sigma^2)}{\sum_{j=1}^k \exp(-\|\mathbf{x}_i-\boldsymbol{\mu}^{(t)}_j\|_2^2/2\sigma^2)} = \begin{cases}
+    1 & z = \arg\min_j\|\boldsymbol{\mu}_j^{(t)}-\mathbf{x}_i\|_2^2 \\
+    0 & \text{otherwise}
+\end{cases}
+\]
+substituting to the M-step $\boldsymbol{\mu}_z^{(t)} = \frac{\sum_{i=1}^n q_i^{(t)}(z) \mathbf{x}_i}{\sum_{i=1}^n q_i^{(t)}(z)}$: defining $\mathcal{S}_j^{(t)} = \{i\in\{1,2,\dots,n\}:j=\arg\max_l\|\boldsymbol{\mu}_l^{(t)}-\mathbf{x}_i\|_2^2\}$ like above,
+\[
+    \boldsymbol{\mu}_z^{(t)} = \frac{1}{|\mathcal{S}_j^{(t)}|}\sum_{i\in \mathcal{S}_j^{(t)}} \mathbf{x}_i
+\]
+which agrees with expression presented in the K-means Clustering algorithm. As such, as a direct result of the EM Algorithm Convergence theorem, the K-means Clustering guarantees that the log-likelihood decreases monotonically in time.
 
 \subsection{Gaussian Mixture Classification}
+As expressed in the beginning of this section, we are able to express the MLE for the label as such:
+\begin{align*}
+    \hat{z}_i
+    &= \arg\max_z p(\mathbf{x}_i|z;\theta)\hat{q}(z) \\
+    &= \arg\max_z \frac{\phi_z}{|\Sigma_z|^{1/2}} \exp\left(\frac{\|\mathbf{x}_i-\boldsymbol{\mu}_z\|^\top\Sigma_z^{-1}\|\mathbf{x}_i-\boldsymbol{\mu}_z\|}{2}\right)
+\end{align*}
 \subsection{Comparison}
+The Gaussian Mixture method generalizes K-means Clustering with the following distinction
+\begin{itemize}
+    \item \textbf{Soft-labeling}: the Gaussian Mixture model considers the probability of each cluster having distinct spread, and that all points have a possibility of being a tail outlier from a faraway cluster.
+    \item \textbf{Cluster probability}: as a direct consequently of hard-labeling, the K-means Clustering algorithm is unable to produce a distribution-type posterior probability $p(z|\mathbf{x}_i;\theta^{(t)})$, while the Gaussian Mixture method naturally produces this value.
+\end{itemize}
+Still, both model both utilizes the Gaussian Distribution to model the associated cluster and apply the EM Algorithm to solve for an MLE estimate. As such, both models suffer greatly from poorly initialized $\boldsymbol{\mu}_j$ centroids as their convergence only guarantees up to the monotonic decrease of the loss function, leading to local minima situations.
