@@ -95,7 +95,7 @@ We aim to establish the mathematical derivations that will be used throughout th
 \end{proof}
 
 \subsection{Motivation for KL divergence in Variational Autoencoders}
-Variational Autoencoder (VAE) involves two loss functions, the reconstruction loss and the Kullback-Leibler (KL) divergence. The reconstruction loss measures how accurate is the generated data compared to the true data. We also require a measure of the statistical distance between the true distribution and the approximating distribution, to ensure a better more accurate latent space. For that, we use KL divergence.
+The Variational Autoencoder (VAE), explained in more details later in this report, involves two loss functions, the reconstruction loss and the Kullback-Leibler (KL) divergence. The reconstruction loss measures how accurate is the generated data compared to the true data. We also require a measure of the statistical distance between the true distribution and the approximating distribution, to ensure a better more accurate latent space. For that, we use KL divergence.
 KL divergence is preferred over other statistical distance measures in this case, as KL divergence helps in making optimization simpler by allowing us to eliminate an intractable term.
 \begin{definition}[Kullback-Leibler Divergence]
 Kullback-Leibler (KL) divergence is a measure of how much different is the approximating probability distribution \( Q \) from the true distribution \( P \). Mathematically, we write: 
