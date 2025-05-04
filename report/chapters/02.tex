@@ -1,5 +1,5 @@
 \section{Expectation-Maximization Algorithms}
-This section aims to define a class of algorithms known as the Expectation-Maximization (EM) algorithm. These algorithms are designed to provide an approximate solution to MLE problems where, because of an unknown set of ``latent'' random variables, don't lead to a closed form solution.
+This section aims to define a class of algorithms known as the Expectation-Maximization (EM) algorithm, based off Andrew Ng's lecture notes of CS229 from Stanford University \cite{em_notes}. These algorithms are designed to provide an approximate solution to MLE problems where, because of an unknown set of ``latent'' random variables, don't lead to a closed form solution.
 \begin{definition}[Distribution Learning with Hidden Latent Variables]
     Suppose there exists 
     \begin{itemize}
@@ -100,19 +100,19 @@ We revisit the problem of Gaussian Mixture Models, now armed with the knowledge 
         \right)
     \]
 \end{itemize}
-Notice that the optimization terms for $\boldsymbol{\mu}_z$ and $\Sigma_z$ is a linear combination of several log-likelihood terms of regular Gaussian fitting. Indeed, we are able to use the results from the preface to conclude that for $z=1,2,\dots,k$
+Notice that the optimization terms for $\boldsymbol{\mu}_z$ and $\Sigma_z$ is a linear combination of several log-likelihood terms of regular Gaussian fitting. Indeed, we are able to use the results from the prerequisites section to conclude that for $z=1,2,\dots,k$
 \[
 \boldsymbol{\mu}_z^{(t)} = \frac{\sum_{i=1}^n q_i^{(t)}(z) \mathbf{x}_i}{\sum_{i=1}^n q_i^{(t)}(z)}
 \text{ and }
 \Sigma_z^{(t)}  = \frac{\sum_{i=1}^n q_i^{(t)}(z) (\mathbf{x}_i-\boldsymbol{\mu}_z)(\mathbf{x}_i-\boldsymbol{\mu}_z)^\top}{\sum_{i=1}^n q_i^{(t)}(z)}
 \]
-Furthermore, the optimization terms $\phi_z$ are a linear combination of several log-likelihood terms of the categorical sampling. Similarly, we can use the results the preface to conclude that for $z=1,2,\dots,k$
+Furthermore, the optimization terms $\phi_z$ are a linear combination of several log-likelihood terms of the categorical sampling. Similarly, we can use the results the prerequisites section to conclude that for $z=1,2,\dots,k$
 \[
 \phi_z^{(t)}  = \frac{1}{n} \sum_{i=1}^n q_i^{(t)}(z)
 \]
 \textbf{Conclusion}: The Gaussian Mixture problem can be seen as a special case for the previously defined ``Distribution Learning with Hidden Latent Variables'' problem. Using the EM algorithm, we're able to derive an iterative procedure that approximates $\boldsymbol{\mu}_z,\Sigma_z,\phi_z$ in a closed form.
 \subsection{Extending the EM Algorithm}
-The Variational Autoencoder (VAE) is a popular extension of the EM Algorithm. Particularly, the \textbf{E-step} of most EM algorithm involves computing $q_i^{(t)}(\mathbf{z})=p(\mathbf{z}|\mathbf{x}_i;\theta^{(t)})$ for $i=1,2,\dots,n$, which is often an \textbf{intractable problem} for most distributions. The VAE replaces the posterior $p(\mathbf{z}|\mathbf{x}_i;\theta^{(t)})$ by a learnable distribution $q$ parametrized by $\phi$. Commonly, the two distributions $p(\mathbf{x}|\mathbf{z};\theta)$ (\textbf{Decoder}) and $q(\mathbf{z}|\mathbf{x};\phi)$ (\textbf{Encoder}) are learned through a neural network with parameters $\theta$ and $\phi$ respectively. Revisiting the ELBO, now reparametrized with $\theta$ and $\phi$ as $q$ is parametrized on the latter,
+The Variational Autoencoder (VAE) \cite{vae} is a popular extension of the EM Algorithm. Particularly, the \textbf{E-step} of most EM algorithm involves computing $q_i^{(t)}(\mathbf{z})=p(\mathbf{z}|\mathbf{x}_i;\theta^{(t)})$ for $i=1,2,\dots,n$, which is often an \textbf{intractable problem} for most distributions. The VAE replaces the posterior $p(\mathbf{z}|\mathbf{x}_i;\theta^{(t)})$ by a learnable distribution $q$ parametrized by $\phi$. Commonly, the two distributions $p(\mathbf{x}|\mathbf{z};\theta)$ (\textbf{Decoder}) and $q(\mathbf{z}|\mathbf{x};\phi)$ (\textbf{Encoder}) are learned through a neural network with parameters $\theta$ and $\phi$ respectively. Revisiting the ELBO, now reparametrized with $\theta$ and $\phi$ as $q$ is parametrized on the latter,
 \begin{align*}
     \text{ELBO}(\mathbf{x},\theta,\phi)
     &= \int q(\mathbf{z}|\mathbf{x};\phi) \log\left(\frac{p(\mathbf{x},\mathbf{z};\theta)}{q(\mathbf{z}|\mathbf{x};\phi)}\right) d\mathbf{z} \\
@@ -126,8 +126,8 @@ The Variational Autoencoder (VAE) is a popular extension of the EM Algorithm. Pa
         &= \log\left( \frac{1}{\sigma^d (2\pi)^{d/2}} \exp\left( -\frac{\|\mathbf{x} - \mu_\theta(\mathbf{z})\|_2^2}{2\sigma^2} \right) \right) \\
         &= -\|\mathbf{x} - \mu_\theta(\mathbf{z})\|_2^2 + C
     \end{align*}
-    when the constant terms are grouped to $C$. As such, optimizing this term is equivalent to minimizing $\E[\|\mathbf{x} - \mu_\theta(\mathbf{z})\|_2^2]$, the euclidean difference between the data point $\mathbf{x}$ and its reconstruction $\mu_\theta(\mathbf{z})$.
-    \item The second term $\int q(\mathbf{z}|\mathbf{x};\phi) \log\left(\frac{q(\mathbf{z}|\mathbf{x};\phi)}{p(\mathbf{z};\theta)}\right) d\mathbf{z}$ is the KL divergence between the two distributions $q(\mathbf{z}|\mathbf{x};\phi)$ and $p(\mathbf{z};\theta)$. We first assume $p(\mathbf{z};\theta)$ follows a standard $s-$dimensional Gaussian pdf. We then assume that $q(\mathbf{z}|\mathbf{x};\phi)$ follows $\normal(\mu_{\phi}(\mathbf{x}),\text{diag}(\sigma_{\phi}^2(\mathbf{x})))$ (when $\text{diag}(\mathbf{v})$ takes $\mathbf{v}\in\R^s$ and returns an $s\times s$ diagonal matrix with entries from the basis coefficient of $\mathbf{v}$). Using results from the preface, this KL divergence can be expressed as follows:
+    when the constant terms are grouped to $C$. As such, optimizing this term is equivalent to minimizing $\E[\|\mathbf{x} - \mu_\theta(\mathbf{z})\|_2^2]$, the euclidean difference between the data point $\mathbf{x}$ and its reconstruction $\mu_\theta(\mathbf{z})$. During training, this is optimized stochastically with monte-carlo samples.
+    \item The second term $\int q(\mathbf{z}|\mathbf{x};\phi) \log\left(\frac{q(\mathbf{z}|\mathbf{x};\phi)}{p(\mathbf{z};\theta)}\right) d\mathbf{z}$ is the KL divergence between the two distributions $q(\mathbf{z}|\mathbf{x};\phi)$ and $p(\mathbf{z};\theta)$. We first assume $p(\mathbf{z};\theta)$ follows a standard $s-$dimensional Gaussian pdf. We then assume that $q(\mathbf{z}|\mathbf{x};\phi)$ follows $\normal(\mu_{\phi}(\mathbf{x}),\text{diag}(\sigma_{\phi}^2(\mathbf{x})))$ (when $\text{diag}(\mathbf{v})$ takes $\mathbf{v}\in\R^s$ and returns an $s\times s$ diagonal matrix with entries from the basis coefficient of $\mathbf{v}$). Using results from the prerequisites section, this KL divergence can be expressed as follows:
     \[
         \mathrm{KL}(q(\mathbf{z}|\mathbf{x};\phi) \| p(\mathbf{z};\theta)) = \frac{1}{2} \sum_{i=1}^s \left( \sigma_{\phi,i}^2(\mathbf{x}) + \mu_{\phi,i}^2(\mathbf{x}) - 1 - \log \sigma_{\phi,i}^2(\mathbf{x}) \right)
     \]

@@ -7,6 +7,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{url}
 \newcommand{\Mod}[1]{\ (\mathrm{mod}\ #1)}
 \newcommand{\sign}[1]{\text{sign}\left(#1\right)}
 \newcommand{\ra}{\rightarrow}
@@ -44,7 +45,7 @@
 \pagestyle{fancy}
 
 \title{Gaussian Mixture Model and Applications with Expectation-Maximization}
-\author{KK Thuwajit ``KKuRoMa'' and Khalid Al-Raisi ``Standard Deviation Male''}
+\author{KK Thuwajit and Khalid Al-Raisi}
 \begin{document}
 
 \newtheorem{theorem}{Theorem}
@@ -55,13 +56,21 @@
 \maketitle
 \tableofcontents
 \newpage
+\section*{Preface}
+This report aims to establish the mathematical derivation of the Gaussian Mixture Model and the Expectation-Maximization (EM) algorithm, two closely-related topic that we have not taught in class, assuming the reader has prerequisites equivalent to CS541. We first referenced the derivation of the EM algorithm from Andrew Ng's lecture notes of CS229 from Stanford University \cite{em_notes} into our language and notation. Then, we proved that several tasks, like clustering and generation, can be solved with the EM algorithm. We finally present related research in generalizing the VAE, which is in and of itself, a generalization of the EM algorithm.
 
+Overall, the report aims to address the first project type, a lecture on a topic we did not (and will not) cover, while being a reproducibility challenge of the cited papers.
+\newpage
 
-\fancyfoot[CO,CE]{Fancy footnote hehe}
+\setcounter{section}{-1}
+\fancyfoot[CO,CE]{Thuwajit, K. and Al-Raisi, K.}
 
 \include{chapters/00}
 \include{chapters/01}
 \include{chapters/02}
 \include{chapters/03}
 \include{chapters/04}
+
+\bibliographystyle{plain}
+\bibliography{refs}
 \end{document}

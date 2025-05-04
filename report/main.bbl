@@ -1,0 +1,31 @@
+\begin{thebibliography}{1}
+
+\bibitem{gmvae}
+Nat Dilokthanakul, Pedro~AM Mediano, Marta Garnelo, Matthew~CH Lee, Hugh
+  Salimbeni, Kai Arulkumaran, and Murray Shanahan.
+\newblock Deep unsupervised clustering with gaussian mixture variational
+  autoencoders.
+\newblock {\em arXiv preprint arXiv:1611.02648}, 2016.
+
+\bibitem{kmeans}
+Edward~W Forgy.
+\newblock Cluster analysis of multivariate data: efficiency versus
+  interpretability of classifications.
+\newblock {\em biometrics}, 21:768--769, 1965.
+
+\bibitem{vae}
+Diederik~P Kingma, Max Welling, et~al.
+\newblock Auto-encoding variational bayes, 2013.
+
+\bibitem{m2}
+Durk~P Kingma, Shakir Mohamed, Danilo Jimenez~Rezende, and Max Welling.
+\newblock Semi-supervised learning with deep generative models.
+\newblock {\em Advances in neural information processing systems}, 27, 2014.
+
+\bibitem{em_notes}
+Andrew Ng and Tengyu Ma.
+\newblock Cs229 lecture notes part ix: The em algorithm.
+\newblock \url{https://cs229.stanford.edu/summer2023/cs229-notes8.pdf}, 2019.
+\newblock CS229: Machine Learning, Summer 2023, Stanford University.
+
+\end{thebibliography}

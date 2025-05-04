@@ -12,7 +12,7 @@ This definition can seen as a reformulation of the ``Distribution Learning with 
 \end{align*}
 
 \subsection{K-means Clustering}
-The K-means clustering finds an estimate to the unsupervised classification problem using the following procedure. First assign centroids $\boldsymbol{\mu}_j^{(0)}$ for $j=\{1,2,\dots,k\}$ to random points. Until convergence, run
+The K-means clustering algorithm \cite{kmeans} finds an estimate to the unsupervised classification problem using the following procedure. First assign centroids $\boldsymbol{\mu}_j^{(0)}$ for $j=\{1,2,\dots,k\}$ to random points. Until convergence, run
 \begin{itemize}
     \item $\mathcal{S}_j^{(t)} = \{i\in\{1,2,\dots,n\}:j=\arg\max_l\|\boldsymbol{\mu}_l^{(t)}-\mathbf{x}_i\|_2^2\}$
     \item $\boldsymbol{\mu}_j^{(t+1)}=\frac{1}{|\mathcal{S}_j^{(t)}|}\sum_{i\in \mathcal{S}_j^{(t)}} \mathbf{x}_i$

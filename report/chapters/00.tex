@@ -1,4 +1,4 @@
-\section*{Preface}
+\section{Prerequisites}
 We aim to establish the mathematical derivations that will be used throughout the document here.
 \begin{theorem}[MLE of Categorical Sampling]
     Given $y_1,y_2,\dots,y_n$ are sampled IID from $\{1,2,\dots,k\}$ such that $\p(y_i=j)=\phi_j$, $\sum_{j=1}^k=\phi_j$, the MLE for $\phi_i$ is given by
@@ -127,7 +127,7 @@ In general, the forward KL divergence is mode-averaging, while the reverse KL di
 Further, this assymetry is also useful since if we consider $D_{KL}(P||Q)$ and $D_{KL}(Q||P)$, since the true posterior is generally more complex than the approximating distribution, so by encoding the approximating distribution using the true posterior we can achieve a lower KL divergence, and thus better optimizating performance. As we will develop next, we would like to minimize the KL divergence when optimizing. 
 
 \begin{theorem}[KL Divergence of Multivariate Gaussians]
-    Given two multivariate Gaussian distributions $p=\mathcal{N}(\boldsymbol{\mu}_p,\Sigma_p)$ and $q=\mathcal{N}(\boldsymbol{\mu}_q,\Sigma_q)$, the KL divergence between them is
+    Given two multivariate Gaussian distributions $p=\mathcal{N}(\boldsymbol{\mu}_p,\Sigma_p)$ and $q=\mathcal{N}(\boldsymbol{\mu}_q,\Sigma_q)$, the (reverse) KL divergence between them is
     \[
     \mathrm{KL}(p\|q) = \frac{1}{2} \left( \log\frac{|\Sigma_q|}{|\Sigma_p|} - d + \operatorname{Tr}(\Sigma_q^{-1}\Sigma_p) + (\boldsymbol{\mu}_q - \boldsymbol{\mu}_p)^\top \Sigma_q^{-1} (\boldsymbol{\mu}_q - \boldsymbol{\mu}_p) \right)
     \]
