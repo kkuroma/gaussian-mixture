@@ -15,9 +15,9 @@
 \contentsline {subsection}{\numberline {3.1}K-means Clustering}{12}{subsection.3.1}%
 \contentsline {subsection}{\numberline {3.2}Gaussian Mixture Classification}{13}{subsection.3.2}%
 \contentsline {subsection}{\numberline {3.3}Comparison}{13}{subsection.3.3}%
-\contentsline {section}{\numberline {4}Applications of EM: Conditional Generation}{14}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Pure Gaussian Mixture Models}{14}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Conditional Variational Autoencoders}{14}{subsection.4.2}%
-\contentsline {subsubsection}{\numberline {4.2.1}The M2 Model}{14}{subsubsection.4.2.1}%
-\contentsline {subsubsection}{\numberline {4.2.2}The GMVAE Model}{15}{subsubsection.4.2.2}%
-\contentsline {subsection}{\numberline {4.3}Comparison}{15}{subsection.4.3}%
+\contentsline {section}{\numberline {4}Applications of EM: Conditional Generation}{15}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Pure Gaussian Mixture Models}{15}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Conditional Variational Autoencoders}{15}{subsection.4.2}%
+\contentsline {subsubsection}{\numberline {4.2.1}The M2 Model}{15}{subsubsection.4.2.1}%
+\contentsline {subsubsection}{\numberline {4.2.2}The GMVAE Model}{16}{subsubsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.3}Comparison}{16}{subsection.4.3}%

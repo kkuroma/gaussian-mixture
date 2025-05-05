@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2025.2.7)  3 MAY 2025 20:40
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2022/dev/Debian) (preloaded format=xelatex 2025.2.7)  5 MAY 2025 00:44
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -780,14 +780,40 @@ Package fancyhdr Warning: \fancyfoot's `E' option without twoside option is usel
 
 
 
-]) [13]
+]
+File: figures/cluster-gt.png Graphic file (type bmp)
+<figures/cluster-gt.png>
+File: figures/result-kmeans.png Graphic file (type bmp)
+<figures/result-kmeans.png>
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+File: figures/result-gmm.png Graphic file (type bmp)
+<figures/result-gmm.png>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+) [13] [14]
 \openout2 = `chapters/04.aux'.
 
- (./chapters/04.tex [14
+ (./chapters/04.tex [15
 
 
 
-]) [15] (./main.bbl) [16
+]
+File: figures/vae-gt.png Graphic file (type bmp)
+<figures/vae-gt.png>
+ [16]
+File: figures/m2model.png Graphic file (type bmp)
+<figures/m2model.png>
+File: figures/gmvae.png Graphic file (type bmp)
+<figures/gmvae.png>
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+) [17] [18] (./main.bbl) [19
 
 
 ] (./main.aux (./chapters/00.aux) (./chapters/01.aux) (./chapters/02.aux) (./chapters/03.aux) (./chapters/04.aux))
@@ -795,12 +821,12 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: E7334D89A3397D860B76918245A6D988;4774.
  ) 
 Here is how much of TeX's memory you used:
- 37680 strings out of 478190
- 895110 string characters out of 5854828
- 1320345 words of memory out of 5000000
- 57617 multiletter control sequences out of 15000+600000
+ 37739 strings out of 478190
+ 896365 string characters out of 5854828
+ 1320611 words of memory out of 5000000
+ 57667 multiletter control sequences out of 15000+600000
  479250 words of font info for 86 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 99i,14n,103p,892b,479s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 99i,14n,103p,899b,479s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on main.pdf (16 pages).
+Output written on main.pdf (19 pages).

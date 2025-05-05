@@ -52,4 +52,26 @@ The Gaussian Mixture method generalizes K-means Clustering with the following di
     \item \textbf{Soft-labeling}: the Gaussian Mixture model considers the probability of each cluster having distinct spread, and that all points have a possibility of being a tail outlier from a faraway cluster.
     \item \textbf{Cluster probability}: as a direct consequently of hard-labeling, the K-means Clustering algorithm is unable to produce a distribution-type posterior probability $p(z|\mathbf{x}_i;\theta^{(t)})$, while the Gaussian Mixture method naturally produces this value.
 \end{itemize}
-Still, both model both utilizes the Gaussian Distribution to model the associated cluster and apply the EM Algorithm to solve for an MLE estimate. As such, both models suffer greatly from poorly initialized $\boldsymbol{\mu}_j$ centroids as their convergence only guarantees up to the monotonic decrease of the loss function, leading to local minima situations.
+Still, both model both utilizes the Gaussian Distribution to model the associated cluster and apply the EM Algorithm to solve for an MLE estimate. As such, both models suffer greatly from poorly initialized $\boldsymbol{\mu}_j$ centroids as their convergence only guarantees up to the monotonic decrease of the loss function, leading to local minima situations. To visualize this, we first generate sampled Gaussian Mixture data from $\R^2$ as shown in \ref{fig:clusters}. Implementations can be found in \texttt{code/unsupervised-classification.ipynb}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\linewidth]{figures/cluster-gt.png}
+    \caption{Randomly Generated Cluster Data}
+    \label{fig:clusters}
+\end{figure}
+
+We first discuss the results from K-means clustering in figure \ref{fig:kmeans}. We notice a poor accuracy in classes 2 and 3 as a result of these two predicted clusters ``inhabiting'' on of the original clusters. Due to starting points being sampled from the dataset itself, it is possible that the class 2 and 3 centroids are originally picked from this cluster and aren't able to be separated due to local optima. While Gaussian Mixture models (see figure \ref{fig:gmm}) is shown to obtain a higher performance, we notice that Gaussian Mixture fitting also suffers from the same problem (class 9 in the figure). Still, the incorporation of prior terms in Gaussian Mixture models is able to improve its accuracy over K-means (these implementations all use the same seed and starting points).
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/result-kmeans.png}
+    \caption{K-Means Clustering Results}
+    \label{fig:kmeans}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/result-gmm.png}
+    \caption{Gaussian Mixture Clustering Results}
+    \label{fig:gmm}
+\end{figure}

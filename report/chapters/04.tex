@@ -55,4 +55,29 @@ The authors additionally pointed out the dominance of $c$-termed KL divergence, 
 
 \subsection{Comparison}
 
-To be added with results from the ipynb.
+We first verify that VAEs are able to generate data akin to those being sampled from the dataset. \texttt{code/categorical-generation/vae.ipynb} details the Implementation of a standard VAE, in which the underlying neural network architecture will be used with other implementations. Figure \ref{fig:vae} depicts such generations from the MNIST dataset.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\linewidth]{figures/vae-gt.png}
+    \caption{VAE results}
+    \label{fig:vae}
+\end{figure}
+
+Figure \ref{fig:m2model} shows the categorical generation capabilities of our M2 model implementation. We notice that, due to the dominance of the $c$ KL divergence term, the classes don't separate well and overfit to select ``templates'' which are not representative of the digits. However, it is important to note that the M2 model is designed to be trained in a semi-supervised setting where small labeled samples guide the unlabeled ones. Having trained the model unsupervised, the less than desirable accuracy is a result of this poor clustering. Still misclassifications share a general trend with the digit's appearances (i.e. 4 being misclassified as 9).
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/m2model.png}
+    \caption{M2 VAE results}
+    \label{fig:m2model}
+\end{figure}
+
+Figure \ref{fig:gmvae} shows our attempt at reproducing the results from \cite{gmvae}. While we are able to train a successful VAE, the model does not show impressive clustering capabilities like the original paper. Instead, we notice a subtle pattern between images generated when conditioned with the same $c$. This is because $q(\mathbf{z}_2|\mathbf{z}_1,c)$ is only optimized indirectly, and more specific training conditions are needed for an exact reproduction. Still, we are able to identify that images from the same $c$ share a common ``style'' (i.e. blurry lines on one of the clusters, thicker strokes on the other).
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/gmvae.png}
+    \caption{GMVAE results}
+    \label{fig:gmvae}
+\end{figure}
